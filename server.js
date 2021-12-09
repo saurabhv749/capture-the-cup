@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors= require('cors')
 const bodyParser = require('body-parser');
 const expect = require('chai');
 const socket = require('socket.io');
@@ -53,10 +54,13 @@ io.on('connection',sock=>{
 })
 
 
-
+// public
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/assets', express.static(process.cwd() + '/assets'));
 
+app.use(cors({
+  origin:'*'
+}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
