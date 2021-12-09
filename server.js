@@ -38,7 +38,6 @@ io.on('connection',sock=>{
       if(u.id===client.id)
         u.score+=value
     })
-    // console.log('collision',onlineUsers)
     // issue new reward
     item = issueReward()
     io.emit('newReward',{item})
@@ -65,10 +64,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet.noSniff())
 app.use(helmet.xssFilter())
 app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store')
-  next()
-})
-app.use((req, res, next) => {
+  res.set('Cache-Control', `no-store, no-cache, must-revalidate, proxy-revalidate`)
+  res.set('Surrogate-Control','no-store')
+  res.set('pragma','no-cache')
+  res.set('expires',0)
   res.set('x-powered-by', 'PHP 7.4.3')
   next()
 })
